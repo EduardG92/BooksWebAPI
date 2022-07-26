@@ -12,7 +12,7 @@ namespace BooksWebAPI
         public IConfiguration Configuration { get; }
         public static void ConfigureServices(WebApplicationBuilder builder)
         {
-            var connectionString = builder.Configuration["ConnectionStrings:MedITConnectionString"];
+            var connectionString = builder.Configuration["ConnectionStrings:MedITDBConnectionString"];
             builder.Services.AddDbContext<MedITContext>(o => o.UseSqlServer(connectionString));
 
             builder.Services.AddControllers();
