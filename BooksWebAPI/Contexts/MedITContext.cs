@@ -1,7 +1,18 @@
-﻿namespace BooksWebAPI.Contexts
+﻿using BooksWebAPI.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace BooksWebAPI.Contexts
 {
-    public class MedITContext
+    public class MedITContext : DbContext
     {
-        //hmmm
+        public MedITContext(DbContextOptions<MedITContext> options)
+            : base(options)
+        { 
+        
+        }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+
     }
 }
