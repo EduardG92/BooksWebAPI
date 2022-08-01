@@ -16,6 +16,15 @@ namespace BooksWebAPI
             builder.Services.AddDbContext<MedITContext>(o => o.UseSqlServer(connectionString));
 
             builder.Services.AddControllers();
+
+            //Adding services on the container
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+            builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+            builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+
+            builder.Services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
+            builder.Services.AddScoped<ITreatmentUnitOfWork, TreatmentUnitOfWork>();
+
         }
 
         public static void Configure(WebApplication app)
