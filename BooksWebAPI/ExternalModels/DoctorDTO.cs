@@ -1,6 +1,9 @@
-public class DoctorDTO
+namespace BooksWebAPI.ExternalModels
 {
-    public Guid Id { get; set; }
-    public  string FirstName { get; set; }
-    public string LastName { get; set; }
+    public class DoctorDTO
+    {
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }
