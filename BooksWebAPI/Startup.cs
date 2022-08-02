@@ -15,7 +15,7 @@ namespace BooksWebAPI
             var connectionString = builder.Configuration["ConnectionStrings:MedITDBConnectionString"];
             builder.Services.AddDbContext<MedITContext>(o => o.UseSqlServer(connectionString));
 
-            builder.Services.AddControllers();
+            
 
             //Adding services on the container
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
@@ -25,6 +25,9 @@ namespace BooksWebAPI
             builder.Services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
             builder.Services.AddScoped<ITreatmentUnitOfWork, TreatmentUnitOfWork>();
 
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddControllers();
         }
 
         public static void Configure(WebApplication app)
@@ -41,6 +44,10 @@ namespace BooksWebAPI
 
             app.MapControllers();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
