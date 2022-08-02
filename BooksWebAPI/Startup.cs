@@ -44,10 +44,7 @@ namespace BooksWebAPI
 
             app.MapControllers();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+           
         }
     }
 }
