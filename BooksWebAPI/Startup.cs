@@ -15,7 +15,7 @@ namespace BooksWebAPI
             var connectionString = builder.Configuration["ConnectionStrings:MedITDBConnectionString"];
             builder.Services.AddDbContext<MedITContext>(o => o.UseSqlServer(connectionString));
 
-            
+
 
             //Adding services on the container
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
