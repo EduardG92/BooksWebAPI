@@ -1,5 +1,8 @@
 ﻿using BooksWebAPI.Contexts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BooksWebAPI
 {
@@ -12,6 +15,27 @@ namespace BooksWebAPI
         public IConfiguration Configuration { get; }
         public static void ConfigureServices(WebApplicationBuilder builder)
         {
+            builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = "https://localhost:7268",
+                        ValidAudience = "https://localhost:7268",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mySecretKey@2022")
+                        
+                     };
+                });
+
             var connectionString = builder.Configuration["ConnectionStrings:MedITDBConnectionString"];
             builder.Services.AddDbContext<MedITContext>(o => o.UseSqlServer(connectionString));
 
@@ -41,13 +65,10 @@ namespace BooksWebAPI
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
             app.MapControllers();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+        
         }
     }
 }
