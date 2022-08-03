@@ -42,7 +42,7 @@ namespace BooksWebAPI.Controllers
             }
 
             var foundPatient = _patientUnit.Patient.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
-            if (foundPatient.Count() == 1)
+            if (foundPatient != null)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2020"));
            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
