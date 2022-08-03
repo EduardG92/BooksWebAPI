@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BooksWebAPI.Entities;
 using BooksWebAPI.ExternalModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,21 +16,37 @@ namespace BooksWebAPI.Controllers
     {
         private readonly IPatientUnitOfWork _patientUnit;
         private readonly IMapper _mapper;
-        public PatientController(IPatientUnitOfWork patientiUnit, IMapper mapper)
+
+        public PatientController(IPatientUnitOfWork patientUnit, IMapper mapper)
         {
-            _patientUnit = patientiUnit ?? throw new ArgumentNullException(nameof(patientiUnit));
+            _patientUnit = patientUnit ?? throw new ArgumentNullException(nameof(patientUnit));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         [HttpGet]
         [Route("{id}", Name = "GetPatient")]
         public IActionResult GetPatient(int id)
         {
-            var patientEntity = _patientUnit.Patient.Get(id);
+            var patientEntity = _patientUnit.Patients.Get(id);
             if (patientEntity == null)
             {
                 return NotFound();
             }
             return Ok(_mapper.Map<PatientDTO>(patientEntity));
+        }
+
+        [Route("register", Name = "Register a new account")]
+        [HttpPost]
+        public IActionResult Register([FromBody] PatientDTO patient)
+        {
+            var patientEntity = _mapper.Map<Patient>(patient);
+            _patientUnit.Patients.Add(patientEntity);
+            _patientUnit.Complete();
+            _patientUnit.Patients.Get(patientEntity.Id);
+
+            return CreatedAtRoute("GetPatient",
+                new { id = patientEntity.Id },
+                _mapper.Map<PatientDTO>(patientEntity));
+
         }
 
         [Route("login")]
@@ -41,7 +58,7 @@ namespace BooksWebAPI.Controllers
                 return BadRequest("Invalid client request.");
             }
 
-            var foundPatient = _patientUnit.Patient.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
+            var foundPatient = _patientUnit.Patients.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
             if (foundPatient != null)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2020"));

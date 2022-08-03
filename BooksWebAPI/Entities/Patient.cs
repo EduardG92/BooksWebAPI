@@ -5,7 +5,7 @@ namespace BooksWebAPI.Entities
     public class Patient
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(150)]

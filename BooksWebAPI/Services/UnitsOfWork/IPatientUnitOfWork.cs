@@ -1,6 +1,6 @@
 public interface IPatientUnitOfWork : IDisposable
 {
-    IPatientRepository Patient { get; }
+    IPatientRepository Patients { get; }
 
     int Complete();
 }

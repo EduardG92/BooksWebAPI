@@ -11,7 +11,7 @@ public class PatientUnitOfWork : IPatientUnitOfWork
 
     public IPatientRepository Patients { get; }
 
-    public IPatientRepository Patient => throw new NotImplementedException();
+    //public IPatientRepository Patient => throw new NotImplementedException();
 
     public int Complete()
     {
