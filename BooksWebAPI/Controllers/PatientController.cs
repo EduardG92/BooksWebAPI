@@ -41,7 +41,7 @@ namespace BooksWebAPI.Controllers
                 return BadRequest("Invalid client request.");
             }
 
-            var foundPatient = _patientUnit.Patients.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
+            var foundPatient = _patientUnit.Patient.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
             if (foundPatient.Count() == 1)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2020"));
