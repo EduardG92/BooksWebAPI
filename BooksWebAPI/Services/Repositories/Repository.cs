@@ -34,7 +34,7 @@ namespace BooksWebAPI.Services.Repositories
         public IEnumerable<TEntity> GetAll() {
             return _context.Set<TEntity>().ToList();
         }
-        public TEntity Get(int id) {
+        public TEntity Get(Guid id) {
             return _context.Set<TEntity>().Find(id);
         }
         public TEntity Remove(TEntity entity) {

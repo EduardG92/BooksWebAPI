@@ -7,7 +7,7 @@ public interface IRepository<TEntity> where TEntity : class
     TEntity FindDefault(Expression<Func<TEntity, bool>> predicate);
     IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
     IEnumerable<TEntity> GetAll();
-    TEntity Get(int id);
+    TEntity Get(Guid id);
     TEntity Remove(TEntity entity);
     IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities);
 

@@ -24,7 +24,7 @@ namespace BooksWebAPI.Controllers
         }
         [HttpGet]
         [Route("{id}", Name = "GetPatient")]
-        public IActionResult GetPatient(int id)
+        public IActionResult GetPatient(Guid id)
         {
             var patientEntity = _patientUnit.Patients.Get(id);
             if (patientEntity == null)
