@@ -31,7 +31,7 @@ namespace BooksWebAPI
 
                         ValidIssuer = "https://localhost:7045",
                         ValidAudience = "https://localhost:7045",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mySecretKey@2022"))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2022"))
                         
                      };
                 });

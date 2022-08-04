@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BooksWebAPI.Entities;
 using BooksWebAPI.ExternalModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -35,7 +36,7 @@ namespace BooksWebAPI.Controllers
             return Ok(_mapper.Map<PatientDTO>(patientEntity));
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("", Name = "GetAllPatients")]
         public IActionResult GetAllPatients(Guid id)
         {
@@ -76,7 +77,7 @@ namespace BooksWebAPI.Controllers
             var foundPatient = _patientUnit.Patients.FindDefault(u => u.Email.Equals(patient.Email) && u.Password.Equals(patient.Password) && (u.Deleted == false || u.Deleted == null));
             if (foundPatient != null)
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2020"));
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKey@2022"));
            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var takeOptions = new JwtSecurityToken(

@@ -15,6 +15,7 @@ namespace BooksWebAPI.Services.Repositories
             {
                 throw new ArgumentNullException(nameof(entity));
             }
+        _context.Set<TEntity>().Add(entity);
             return entity;
         }
         public IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities) {
