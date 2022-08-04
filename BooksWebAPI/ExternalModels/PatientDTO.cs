@@ -9,5 +9,6 @@ namespace BooksWebAPI.ExternalModels
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public bool Insured { get; set; }
+        public bool Deleted { get; set; }
     }
 }

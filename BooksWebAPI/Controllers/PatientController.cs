@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BooksWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("patient")]
     [ApiController]
     public class PatientController : ControllerBase
     {
