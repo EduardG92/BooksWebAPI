@@ -22,6 +22,7 @@ namespace BooksWebAPI.Controllers
             _patientUnit = patientUnit ?? throw new ArgumentNullException(nameof(patientUnit));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
         [HttpGet]
         [Route("{id}", Name = "GetPatient")]
         public IActionResult GetPatient(Guid id)
@@ -34,6 +35,20 @@ namespace BooksWebAPI.Controllers
             return Ok(_mapper.Map<PatientDTO>(patientEntity));
         }
 
+        [HttpGet]
+        [Route("", Name = "GetAllPatients")]
+        public IActionResult GetAllPatients(Guid id)
+        {
+            var patientEntities = _patientUnit.Patients.Find(u => u.Deleted == false || u.Deleted == null);
+            if (patientEntities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<List<PatientDTO>>(patientEntities));
+        }
+
+
         [Route("register", Name = "Register a new account")]
         [HttpPost]
         public IActionResult Register([FromBody] PatientDTO patient)
@@ -43,8 +58,8 @@ namespace BooksWebAPI.Controllers
             _patientUnit.Complete();
             _patientUnit.Patients.Get(patientEntity.Id);
 
-            return CreatedAtRoute("GetPatient",
-                new { id = patientEntity.Id },
+            return CreatedAtRoute("GetPatient", 
+                new { id = patientEntity.Id }, 
                 _mapper.Map<PatientDTO>(patientEntity));
 
         }
@@ -53,7 +68,7 @@ namespace BooksWebAPI.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] LoginDTO patient)
         {
-            if(User == null)
+            if(patient == null)
             {
                 return BadRequest("Invalid client request.");
             }
@@ -65,8 +80,8 @@ namespace BooksWebAPI.Controllers
            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var takeOptions = new JwtSecurityToken(
-                    issuer: "https://localhost:44318",
-                    audience: "https://localhost:44318",
+                    issuer: "https://localhost:7045",
+                    audience: "https://localhost:7045",
                     claims: new List<Claim>(),
                     expires: DateTime.Now.AddHours(8),
                     signingCredentials: signinCredentials);

@@ -29,8 +29,8 @@ namespace BooksWebAPI
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
 
-                        ValidIssuer = "https://localhost:7268",
-                        ValidAudience = "https://localhost:7268",
+                        ValidIssuer = "https://localhost:7045",
+                        ValidAudience = "https://localhost:7045",
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mySecretKey@2022"))
                         
                      };
